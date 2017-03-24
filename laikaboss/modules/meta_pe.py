@@ -253,8 +253,8 @@ class META_PE(SI_MODULE):
         """
         Returns hashes of the Rich PE header
         """
-        rich_data = pe.get_data(0x80, 0x80)
-        data = list(struct.unpack('<32I', rich_data))
+        rich_data = pe.get_data(0x80)
+        data = list(struct.unpack('<%sI' % str(len(rich_data)/4), rich_data))
         checksum = data[1]
         rich_end = data.index(0x68636952)
         md5 = hashlib.md5()
