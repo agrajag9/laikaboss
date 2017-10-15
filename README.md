@@ -60,7 +60,7 @@ Laika BOSS has been tested on the latest versions of CentOS and Ubuntu LTS
 
 	```shell
 	apt-get install python-ipy python-m2crypto python-pyclamd liblzma5 libimage-exiftool-perl python-msgpack libfuzzy-dev python-cffi python-dev unrar
-	pip install fluent-logger olefile ssdeep py-unrar2 pylzma javatools
+	pip install fluent-logger olefile ssdeep py-unrar2 pylzma javatools pyimpfuzzy
 	wget https://github.com/smarnach/pyexiftool/archive/master.zip
 	unzip master.zip
 	cd pyexiftool-master
@@ -85,7 +85,7 @@ Laika BOSS has been tested on the latest versions of CentOS and Ubuntu LTS
 2. Install Python modules
 
 	```shell
-	pip install IPy cffi interruptingcow fluent-logger javatools m2crypto olefile pylzma pyclamd py-unrar2
+	pip install IPy cffi interruptingcow fluent-logger javatools m2crypto olefile pylzma pyclamd py-unrar2 pyimpfuzzy
 	pip install six --upgrade --force-reinstall
 	pip install ssdeep
 	```
