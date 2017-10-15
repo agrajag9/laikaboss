@@ -17,6 +17,7 @@ import hashlib
 import binascii
 import logging
 import pefile
+import pyimpfuzzy
 from datetime import datetime
 from laikaboss.objectmodel import (ModuleObject,
                                    ExternalVars,
@@ -136,6 +137,14 @@ class META_PE(SI_MODULE):
                 raise
             except:
                 logging.debug('Unable to identify imphash')
+            try:
+                scanObject.addMetadata(self.module_name, 'Impfuzzy',
+                                       pyimpfuzzy.get_impfuzzy_data(scanObject.buffer))
+            except ScanError:
+                raise
+            except:
+                logging.debug('Failed to fuzzy hash import table')
+
 
             imgChars = dump_dict.get('Flags', [])
             scanObject.addMetadata(
@@ -220,7 +229,7 @@ class META_PE(SI_MODULE):
                         debug["age"] = struct.unpack('<L', pdb[4:8])[0]
                         debug["pdb"] = pdb[8:].rstrip('\x00')
                         scanObject.addMetadata(self.module_name, 'NB10', debug)
-                        
+
             # Extract digital signature
             digital_sig_virtual_address = pe.OPTIONAL_HEADER.DATA_DIRECTORY[pefile.DIRECTORY_ENTRY['IMAGE_DIRECTORY_ENTRY_SECURITY']].VirtualAddress
             if digital_sig_virtual_address > 0:
@@ -231,7 +240,7 @@ class META_PE(SI_MODULE):
                     moduleResult.append(ModuleObject(buffer=signatureData, externalVars=ExternalVars(filename=name)))
                 else:
                     scanObject.addFlag('pe:nfo:empty_signature')
-                        
+
         except pefile.PEFormatError:
             logging.debug("Invalid PE format")
         return moduleResult
